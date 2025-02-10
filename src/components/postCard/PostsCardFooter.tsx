@@ -1,26 +1,11 @@
 import React from "react";
-import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPenToSquare,
-  faThumbsUp,
-  faTrashCan,
-} from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsDown } from "@fortawesome/free-solid-svg-icons/faThumbsDown";
+import { IPost } from "@/utils/types";
 
 interface IPostsCardFooterProps {
-  post: {
-    id: number;
-    title: string;
-    body: string;
-    tags: string[];
-    reactions: {
-      likes: number;
-      dislikes: number;
-    };
-    views: number;
-    userId: number;
-  };
+  post: IPost;
 }
 
 const PostsCardFooter: React.FC<IPostsCardFooterProps> = ({ post }) => {
@@ -47,8 +32,8 @@ const PostsCardFooter: React.FC<IPostsCardFooterProps> = ({ post }) => {
         </div>
       </div>
       <div className="flex items-center gap-4 text-text-light-2">
-        {/* {post?.comments ? <span> {post?.views} Comments</span> : null} */}
-        <span> 20 Comments</span> {/* static */}
+        <span> 8 Comments</span>{" "}
+        {/* static as we don't get it in the request */}
         {post?.views ? <span> {post?.views} Views</span> : null}
       </div>
     </footer>

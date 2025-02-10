@@ -1,24 +1,33 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { IPost } from "@/utils/types";
+import { deletePost } from "@/api/posts";
+import Link from "next/link";
+import { faEye } from "@fortawesome/free-solid-svg-icons/faEye";
+import { showSuccesMessage } from "@/utils/functions";
+import UpdatePostModal from "../UpdatePostModal";
 
 interface IPostsCardHeaderProps {
-  post: {
-    id: number;
-    title: string;
-    body: string;
-    tags: string[];
-    reactions: {
-      likes: number;
-      dislikes: number;
-    };
-    views: number;
-    userId: number;
-  };
+  post: IPost;
+  hideIcons?: boolean;
 }
 
-const PostsCardHeader: React.FC<IPostsCardHeaderProps> = ({ post }) => {
+const PostsCardHeader: React.FC<IPostsCardHeaderProps> = ({
+  post,
+  hideIcons,
+}) => {
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+
+  const handleDelete = async (id: number) => {
+    const status = await deletePost(id);
+    if (status === 200) {
+      showSuccesMessage();
+    }
+  };
   return (
     <header className="flex justify-between mb-6">
       <div className="flex items-center gap-2">
@@ -31,10 +40,33 @@ const PostsCardHeader: React.FC<IPostsCardHeaderProps> = ({ post }) => {
         />
         <p className="text-base">John Doe</p>
       </div>
-      <div className="flex items-center gap-4 text-text-light-2">
-        <FontAwesomeIcon icon={faPenToSquare} width={16} height={16} />
-        <FontAwesomeIcon icon={faTrashCan} width={16} height={16} />
-      </div>
+      {hideIcons ? null : (
+        <div className="flex items-center gap-4 text-text-light-2">
+          <Link href={`/posts/${post?.id}`} key={post?.id}>
+            <FontAwesomeIcon icon={faEye} width={16} height={16} />
+          </Link>
+          <FontAwesomeIcon
+            icon={faPenToSquare}
+            width={16}
+            height={16}
+            onClick={() => setIsUpdateModalOpen(true)}
+            className="cursor-pointer"
+          />
+          <FontAwesomeIcon
+            icon={faTrashCan}
+            onClick={() => handleDelete(post?.id)}
+            width={16}
+            height={16}
+            className="cursor-pointer"
+          />
+        </div>
+      )}
+
+      <UpdatePostModal
+        isOpen={isUpdateModalOpen}
+        closeModal={() => setIsUpdateModalOpen(false)}
+        post={post}
+      />
     </header>
   );
 };
