@@ -20,3 +20,8 @@ to run test:
 ```bash
 npm run test
 ```
+
+Live deployment of the app on Vercel : [`Posts App`](https://posts-app-iota.vercel.app//)
+
+note : because of using react query I had to turn many components to client components and it affected on the SSR
+and SEO of the website
