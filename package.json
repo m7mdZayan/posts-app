@@ -16,7 +16,7 @@
     "@tanstack/react-query-devtools": "^5.66.0",
     "@types/react-modal": "^3.16.3",
     "axios": "^1.7.9",
-    "next": "15.1.6",
+    "next": "15.1.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.1",
